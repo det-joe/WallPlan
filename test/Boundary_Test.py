@@ -7,6 +7,7 @@ import sys
 import re
 import numpy as np
 import cv2
+sys.path.append('../')
 import utils
 from train.WallPlan import models
 from test_process.step1_window_assembly import assembling_windows
@@ -41,7 +42,8 @@ graph_net = models.model(
 
 class WallPlan_Main():
     def __init__(self):
-        self.prepare_models()
+        # self.prepare_models()
+        return
     def generate_from_val(self,pkl_pth,save_pth):
         with open(pkl_pth, 'rb') as pkl_file:
             [wall_graph,door_info,door_mask_120,boundary_mask_120,boundary_mask_120_5pix,inside_mask_120] = pickle.load(
