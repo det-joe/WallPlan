@@ -42,8 +42,7 @@ graph_net = models.model(
 
 class WallPlan_Main():
     def __init__(self):
-        # self.prepare_models()
-        return
+        self.prepare_models()
     def generate_from_val(self,pkl_pth,save_pth):
         with open(pkl_pth, 'rb') as pkl_file:
             [wall_graph,door_info,door_mask_120,boundary_mask_120,boundary_mask_120_5pix,inside_mask_120] = pickle.load(
@@ -51,6 +50,9 @@ class WallPlan_Main():
         #For convenience, the input here is redundant, and
         #in fact boundary_mask and inside_maks can be obtained
         #from the wall graph
+        # print("wall_graph:", wall_graph)
+        # print("door_info:", door_info)
+        # print("door_mask_120:", door_mask_120)
         plan_name = os.path.split(pkl_pth)[-1]
         print(plan_name)
         junction_graph_120 = convert_graph_120(wall_graph)
@@ -125,6 +127,7 @@ class WallPlan_Main():
             "6. rendering "
             fp_mask = floorplan_render(None,gen_junction_graph, room_circles, frontdoor_where, door_where,
                                                      livwins_where, wins_where,balcony_wins,no_balcony_wins,liv_window_para,special_balcony_doors,0)
+            print("fp_mask:", fp_mask)
             cv2.imwrite(f"{save_pth}"+plan_name.replace("pkl","png"),fp_mask)
 
     def init_input(self,boun_string,frontdoor_string,liv_win_str,win_str):
@@ -619,10 +622,10 @@ def get_samples_from_two(input1,input2,sample_num):
 if __name__=="__main__":
     WallPlan=WallPlan_Main()
 
-    val_pth="./input/"
+    val_pth="./input_single/"
     val_files = [val_pth + name for name in os.listdir(val_pth) if os.path.splitext(name)[1] == ".pkl"]
     for fp_file in val_files:
-        WallPlan.generate_from_val(fp_file,"./output/")
+        WallPlan.generate_from_val(fp_file,"./output_single/")
 
 
 
